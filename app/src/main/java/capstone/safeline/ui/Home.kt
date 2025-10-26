@@ -1,5 +1,6 @@
 package capstone.safeline.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,18 +25,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import capstone.safeline.ui.components.BottomNavBar
+import capstone.safeline.ui.components.TopBar
 
 class Home : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            HomeScreen()
+            HomeScreen(
+                onNavigate = { destination ->
+                when (destination) {
+                    "home" -> {}
+                    "calls" -> startActivity(Intent(this, Call::class.java))
+                    "messages" -> startActivity(Intent(this, Chat::class.java))
+                    "profile" -> {startActivity(Intent(this, Profile::class.java))}
+                }
+            })
         }
     }
 }
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(onNavigate: (String) -> Unit) {
     val backgroundBrush = Brush.verticalGradient(
         colors = listOf(
             Color(0xFF0B0014),
@@ -42,40 +54,52 @@ fun HomeScreen() {
         )
     )
 
-    //This is an empty list for now.
-    //TODO: Change once the notifications functionality is added.
-    val notifications = listOf<String>()
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(backgroundBrush)
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Spacer(modifier = Modifier.height(80.dp))
-
-            Text(
-                text = "Notifications",
-                color = Color.White,
-                fontSize = 26.sp,
-                fontWeight = FontWeight.Bold
+    Scaffold (
+        topBar = { TopBar(title = "Home")},
+        bottomBar = {
+            BottomNavBar(
+                currentScreen = "home",
+                onNavigate = onNavigate
             )
+        },
+        containerColor = Color.Transparent
+    ) { innerpadding ->
+        //This is an empty list for now.
+        //TODO: Change once the notifications functionality is added.
+        val notifications = listOf<String>()
 
-            Spacer(modifier = Modifier.height(20.dp))
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(backgroundBrush)
+                .padding(innerpadding)
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Spacer(modifier = Modifier.height(80.dp))
 
-            if (notifications.isEmpty()) {
                 Text(
-                    text = "No notifications",
+                    text = "Notifications",
                     color = Color.White,
-                    fontSize = 16.sp,
+                    fontSize = 26.sp,
                     fontWeight = FontWeight.Bold
                 )
-            } else {
-                notifications.forEach { notification ->
-                   myCard(notification, Modifier.padding())
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                if (notifications.isEmpty()) {
+                    Text(
+                        text = "No notifications",
+                        color = Color.White,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                } else {
+                    notifications.forEach { notification ->
+                        myCard(notification, Modifier.padding())
+                    }
                 }
             }
         }

@@ -1,5 +1,6 @@
 package capstone.safeline.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -23,6 +24,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,66 +34,78 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import capstone.safeline.R
+import capstone.safeline.ui.components.BottomNavBar
+import capstone.safeline.ui.components.TopBar
 
 class Profile : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ProfileScreen()
+            ProfileScreen(
+                onNavigate = { destination ->
+                    when (destination) {
+                        "home" -> startActivity(Intent(this, Home::class.java))
+                        "calls" -> startActivity(Intent(this, Call::class.java))
+                        "messages" -> startActivity(Intent(this, Chat::class.java))
+                        "profile" -> {}
+                    }
+                }
+            )
         }
     }
 }
 
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(onNavigate: (String) -> Unit) {
     val backgroundBrush = Brush.verticalGradient(
         colors = listOf(
             Color(0xFF0B0014),
             Color(0xFF0D2244)
         )
     )
-
-    Box (
-        modifier = Modifier
-            .fillMaxSize()
-            .background(backgroundBrush)
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize()
+    Scaffold(
+        topBar = { TopBar(title = "Profile")},
+        bottomBar = {
+            BottomNavBar(
+                currentScreen = "profile",
+                onNavigate = onNavigate
+            )
+        },
+        containerColor = Color.Transparent
+    ) { innerpadding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(backgroundBrush)
+                .padding(innerpadding)
         ) {
-            Spacer(modifier = Modifier.height(80.dp))
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Spacer(modifier = Modifier.height(80.dp))
 
-            Text(
-                text = "Profile",
-                color = Color.White,
-                fontSize = 26.sp,
-                fontWeight = FontWeight.Bold
-            )
+                Image(
+                    painter = painterResource(id = R.drawable.profile_picture),
+                    contentDescription = "Profile picture",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(150.dp)
+                        .clip(CircleShape)
+                )
 
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Image(
-                painter = painterResource(id = R.drawable.profile_picture),
-                contentDescription = "Profile picture",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(CircleShape)
-            )
-
-            Spacer(modifier = Modifier.height(35.dp))
+                Spacer(modifier = Modifier.height(35.dp))
 
 
-            UsernameEditor()
-            Spacer(modifier = Modifier.height(10.dp))
-            EmailEditor()
-            Spacer(modifier = Modifier.height(10.dp))
-            PasswordEditor()
+                UsernameEditor()
+                Spacer(modifier = Modifier.height(10.dp))
+                EmailEditor()
+                Spacer(modifier = Modifier.height(10.dp))
+                PasswordEditor()
+            }
         }
     }
 }
@@ -153,7 +167,7 @@ fun EmailEditor(){
 
         ) {
             //TODO: make db call for this in final
-            val email = "tempEmail"
+            val email = "tempEmail@email.com"
             Text("Email: $email", color = Color.White, fontSize = 20.sp)
 
             IconButton(
