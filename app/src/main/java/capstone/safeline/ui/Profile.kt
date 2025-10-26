@@ -2,9 +2,212 @@ package capstone.safeline.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import capstone.safeline.R
 
 class Profile : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContent {
+            ProfileScreen()
+        }
+    }
+}
+
+@Composable
+fun ProfileScreen() {
+    val backgroundBrush = Brush.verticalGradient(
+        colors = listOf(
+            Color(0xFF0B0014),
+            Color(0xFF0D2244)
+        )
+    )
+
+    Box (
+        modifier = Modifier
+            .fillMaxSize()
+            .background(backgroundBrush)
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Spacer(modifier = Modifier.height(80.dp))
+
+            Text(
+                text = "Profile",
+                color = Color.White,
+                fontSize = 26.sp,
+                fontWeight = FontWeight.Bold
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Image(
+                painter = painterResource(id = R.drawable.profile_picture),
+                contentDescription = "Profile picture",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(100.dp)
+                    .clip(CircleShape)
+            )
+
+            Spacer(modifier = Modifier.height(35.dp))
+
+
+            UsernameEditor()
+            Spacer(modifier = Modifier.height(10.dp))
+            EmailEditor()
+            Spacer(modifier = Modifier.height(10.dp))
+            PasswordEditor()
+        }
+    }
+}
+
+@Composable
+fun UsernameEditor(){
+    Card(
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF122952)),
+        shape = RoundedCornerShape(16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        elevation = CardDefaults.cardElevation(4.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp)
+        ) {
+            //TODO: make db call for this in final
+            val name = "tempUser"
+            Text("Name: $name", color = Color.White, fontSize = 20.sp)
+
+            IconButton(
+                onClick = {},
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(Color(0xFF1976D2))
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "Name Change",
+                    tint = Color.White
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun EmailEditor(){
+    Card(
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF122952)),
+        shape = RoundedCornerShape(16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        elevation = CardDefaults.cardElevation(4.dp)
+
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp)
+
+
+        ) {
+            //TODO: make db call for this in final
+            val email = "tempEmail"
+            Text("Email: $email", color = Color.White, fontSize = 20.sp)
+
+            IconButton(
+                onClick = {},
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(Color(0xFF1976D2))
+                ) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "Email Change",
+                    tint = Color.White
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun PasswordEditor(){
+    Card(
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF122952)),
+        shape = RoundedCornerShape(16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        elevation = CardDefaults.cardElevation(4.dp)
+
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp)
+
+
+        ) {
+            val password = "********"
+            Text("Password: $password", color = Color.White, fontSize = 20.sp)
+
+            IconButton(
+                onClick = {},
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(Color(0xFF1976D2))
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "Password Change",
+                    tint = Color.White
+                )
+            }
+        }
     }
 }
