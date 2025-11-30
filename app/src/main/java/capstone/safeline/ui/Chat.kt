@@ -6,11 +6,21 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import capstone.safeline.models.ChatUser
+import capstone.safeline.models.Message
 import capstone.safeline.ui.components.BottomNavBar
 import capstone.safeline.ui.components.ChatCard
 import capstone.safeline.ui.components.TopBar
@@ -26,12 +37,12 @@ import capstone.safeline.ui.components.TopBar
 class Chat : ComponentActivity() {
 
     private val chatUsers = listOf(
-        ChatUser("John Doe", "Hey, how are you?", "12:30 PM"),
-        ChatUser("Jane Smith", "Meeting at 2 PM", "11:45 AM"),
-        ChatUser("Mike Lee", "Call me back!", "10:20 AM"),
-        ChatUser("Jeff", "I might be too cool", "12:00 PM"),
-        ChatUser("Savs", "gymnastics is at 3", "2:00 PM"),
-        ChatUser("Avano", "Dude we are cooked!!!", "11:50 PM"),
+        ChatUser("John Doe", messages = listOf(Message("Hey, how are you?", "12:30 AM"))),
+        ChatUser("Jane Smith", messages = listOf(Message("Meeting at 2 PM", "1:00 PM"))),
+        ChatUser("Mike Lee", messages = listOf(Message("Call me back!", "10:00 AM"))),
+        ChatUser("Jeff", messages = listOf(Message("I might be too cool", "2:00 AM"))),
+        ChatUser("Savs", messages = listOf(Message("Gymnastics is at 3", "9:00 AM"))),
+        ChatUser("Avano", messages = listOf(Message("Dude we are cooked!!!", "11:59 PM")))
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +54,7 @@ class Chat : ComponentActivity() {
                     // TODO
                 },
                 onUserClick = { user ->
-                    val intent = Intent(this, Chat::class.java)
+                    val intent = Intent(this, UserChat::class.java)
                     intent.putExtra("userName", user.name)
                     startActivity(intent)
                 },

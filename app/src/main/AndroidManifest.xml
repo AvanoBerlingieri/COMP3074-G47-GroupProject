@@ -13,7 +13,7 @@
         android:networkSecurityConfig="@xml/network_security_config">
 
         <activity
-            android:name=".ui.Login"
+            android:name=".ui.Chat"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,11 +34,14 @@
             android:name=".ui.Call"
             android:exported="true" />
         <activity
-            android:name=".ui.Chat"
+            android:name=".ui.Login"
             android:exported="true" />
         <activity
             android:name=".ui.Profile"
             android:exported="true" />
+        <activity
+            android:name=".ui.UserChat"
+            android:exported="true"/>
 
     </application>
     

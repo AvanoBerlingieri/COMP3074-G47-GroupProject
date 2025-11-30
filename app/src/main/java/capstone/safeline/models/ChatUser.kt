@@ -1,7 +1,12 @@
 package capstone.safeline.models
 
+
+data class Message(
+    val text: String,
+    val time: String
+)
+
 data class ChatUser(
     val name: String,
-    val lastMessage: String,
-    val time: String
+    val messages: List<Message>
 )

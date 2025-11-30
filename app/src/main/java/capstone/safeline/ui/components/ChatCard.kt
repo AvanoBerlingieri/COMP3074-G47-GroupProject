@@ -2,7 +2,14 @@ package capstone.safeline.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -52,7 +59,7 @@ fun ChatCard(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = user.time,
+                        text = user.messages.first().time,
                         color = Color.White,
                         fontSize = 14.sp
                     )
@@ -61,7 +68,7 @@ fun ChatCard(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = user.lastMessage,
+                    text = user.messages.first().text,
                     color = Color.White,
                     fontSize = 16.sp,
                     maxLines = 1,

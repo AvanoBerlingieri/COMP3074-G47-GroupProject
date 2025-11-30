@@ -46,6 +46,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.google.android.material:material:1.13.0")
+    implementation("com.google.code.gson:gson:2.13.2")
     implementation(libs.recyclerview)
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -67,6 +68,5 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.11.0")
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3:1.2.0")
-
+    implementation("androidx.compose.material3:material3:1.2.1")
 }

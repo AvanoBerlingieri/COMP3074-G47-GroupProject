@@ -163,8 +163,6 @@ fun EmailEditor(){
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 12.dp)
-
-
         ) {
             //TODO: make db call for this in final
             val email = "tempEmail@email.com"
