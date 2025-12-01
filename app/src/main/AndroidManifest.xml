@@ -34,6 +34,9 @@
             android:name=".ui.Call"
             android:exported="true" />
         <activity
+            android:name=".ui.OngoingCallActivity"
+            android:exported="true"/>
+        <activity
             android:name=".ui.Login"
             android:exported="true" />
         <activity

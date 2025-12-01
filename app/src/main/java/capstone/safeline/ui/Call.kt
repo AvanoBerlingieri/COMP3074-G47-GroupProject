@@ -36,16 +36,24 @@ class Call : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             CallScreen(
                 callLog = callLog,
                 onMakeCallClick = {
-                    // TODO
+                    val intent = Intent(this, OngoingCallActivity::class.java)
+                    intent.putExtra("callerName", "Unknown")
+                    startActivity(intent)
+                },
+                onCallClick = { callerName ->
+                    val intent = Intent(this, OngoingCallActivity::class.java)
+                    intent.putExtra("callerName", callerName)
+                    startActivity(intent)
                 },
                 onNavigate = { destination ->
                     when (destination) {
                         "home" -> startActivity(Intent(this, Home::class.java))
-                        "calls" -> {}
+                        "calls" -> { }
                         "messages" -> startActivity(Intent(this, Chat::class.java))
                         "profile" -> startActivity(Intent(this, Profile::class.java))
                     }
@@ -59,6 +67,7 @@ class Call : ComponentActivity() {
 fun CallScreen(
     callLog: List<CallEntry>,
     onMakeCallClick: () -> Unit,
+    onCallClick: (String) -> Unit,
     onNavigate: (String) -> Unit
 ) {
     val backgroundBrush = Brush.verticalGradient(
@@ -66,7 +75,7 @@ fun CallScreen(
     )
 
     Scaffold(
-        topBar = { TopBar(title = "Calls")},
+        topBar = { TopBar(title = "Calls") },
         bottomBar = {
             BottomNavBar(
                 currentScreen = "calls",
@@ -107,9 +116,13 @@ fun CallScreen(
                 LazyColumn(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
-                ) {items(callLog) { call ->
-                    CallCard(call = call, onClick = {/* TODO */})
-                }
+                ) {
+                    items(callLog) { call ->
+                        CallCard(
+                            call = call,
+                            onClick = { onCallClick(call.name) }
+                        )
+                    }
                 }
             }
         }
